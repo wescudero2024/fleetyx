@@ -2,13 +2,25 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
 from app.infrastructure.database.database import init_db
-from app.interfaces.api.routes import loads, quotes, tracking, carriers, matching
+from app.interfaces.api.routes import loads, quotes, tracking, carriers, matching, rates
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
+    try:
+        await init_db()
+    except Exception as e:
+        # Log database initialization error but don't fail startup
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"Database initialization failed: {e}")
     yield
 
 
@@ -32,6 +44,7 @@ app.include_router(quotes.router)
 app.include_router(tracking.router)
 app.include_router(carriers.router)
 app.include_router(matching.router)
+app.include_router(rates.router)
 
 
 @app.get("/")

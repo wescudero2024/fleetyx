@@ -167,3 +167,51 @@ For production deployment:
 ## 📝 License
 
 This project is licensed under the MIT License.
+
+Fleetyx Transportation Management System Architecture
+Architecture Overview
+This project implements a Transportation Management System (TMS) using Clean Architecture + Domain-Driven Design (DDD) principles.
+
+Core Architecture Layers
+1. Domain Layer (/app/domain)
+Entities: Core business entities (Load, Carrier, Quote)
+Value Objects: Value objects (Address, etc.)
+Interfaces: Repository interfaces
+2. Application Layer (/app/application)
+Use Cases: Business use cases
+Services: Application services
+3. Infrastructure Layer (/app/infrastructure)
+Database: SQLAlchemy models, repositories
+External: External API integrations
+4. Interfaces Layer (/app/interfaces)
+API Routes: FastAPI routes
+Schemas: Pydantic schemas
+Dependencies: FastAPI dependencies
+Technology Stack
+Framework: FastAPI with async/await
+Database: PostgreSQL with SQLAlchemy 2.0
+ORM: SQLAlchemy with async support
+Validation: Pydantic schemas
+Authentication: JWT with python-jose
+Caching: Redis
+Task Queue: Celery
+Testing: pytest with asyncio support
+Database Migrations: Alembic
+Key Features
+Load management (create, update, assign, cancel)
+Quote management and carrier selection
+Carrier management with search capabilities
+Real-time shipment tracking
+Fuzzy string matching for invoice-contract matching
+Dashboard KPIs and analytics
+Consistent API response format across all endpoints
+API Structure
+The system exposes RESTful endpoints for:
+
+Loads: CRUD operations, status updates, carrier assignment
+Quotes: Quote creation, management, and carrier selection
+Carriers: Carrier management and search
+Tracking: Real-time shipment tracking and status updates
+Matching: Fuzzy matching for invoice-contract reconciliation
+Entry Point
+main.py serves as the FastAPI application entry point with proper lifecycle management, CORS middleware, and global exception handling.
